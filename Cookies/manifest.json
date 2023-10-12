@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Cookie Extension",
+    "version": "1.0",
+    "permissions": [
+      "cookies",
+      "*://*/*"  
+    ],
+    "background": {
+      "service_worker": "background_cookies.js"
+    }
+  }

@@ -1,0 +1,19 @@
+TODO
+1. Search only within the 'main' section
+2. Make search much faster
+
+Task 1
+- Get the question list - 1 HOUR - DONE
+    - Technically Johnny only needs an array of the actual questions. He doesn't need the div elements
+    - But I will need to store the list with the divs in some array because I will have to change them later. Don't want to repopulate the array.
+
+Task 2
+- 
+
+Unchecked
+<div aria-disabled="false" aria-label="select Q1.1 1a (7.0 pts) to assign pages`" aria-pressed="false" class="selectPagesQuestionOutline--item" role="button" tabindex="0">
+
+
+Selected
+<div aria-disabled="false" aria-label="select Q1.1 1a (7.0 pts) to assign pages`" aria-pressed="true" class="selectPagesQuestionOutline--item selectPagesQuestionOutline--item-selected" role="button" tabindex="0">
+
