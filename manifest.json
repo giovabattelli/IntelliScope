@@ -1,0 +1,11 @@
+{
+    "manifest_version": 2,
+    "name": "Gradescope Automatic Page Selection Extension",
+    "version": "1.0",
+    "description": "Automatically performs the question and page selection during assignment submission on Gradescope.",
+    "permissions": ["activeTab", "http://localhost/"],
+    "browser_action": {
+      "default_popup": "popup.html"
+    }
+  }
+  

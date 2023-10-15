@@ -1,14 +1,27 @@
 # Import necessary libraries
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
+from flask import Flask, jsonify, request
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import html
 import re
 
-# User credentials
-email = "assad.g@northeastern.edu"
-password = "Gfideliova03!@#$"
+#Use email and password data from popup.js to login to Gradescope
+app = Flask(__name__)
+
+@app.route('/get-data', methods=['POST'])
+def get_data():
+    global received_email, received_password
+    received_data = request.json
+    received_email = received_data.get('email')
+    received_password = received_data.get('password')
+    return jsonify({"email": received_email, "password": received_password})
+
+if __name__ == '__main__':
+    app.run(port=5000)
+
+email, password = get_data()
 
 # Setup selenium driver
 chrome_options = Options()
