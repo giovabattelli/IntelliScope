@@ -81,10 +81,5 @@ def page_assigner(list_of_strings, problem_queue):
         
         page_num += 1
 
-# TEST USING PREDEFINED TEST CASES FOR BOTH PARAMETERS
 print(page_assigner(test1, test2))
-
-# TEST USING DOWNLOADED IMAGES FROM URLS OF AN ACTUAL PSET, AND THE LIST OF PROBLEMS STORED IN THE VARIABLE example_list_of_problems
 # print(page_assigner(image_url_to_text(arr_of_img_urls), example_list_of_problems))
-
-# EVENTUAL USE CASE TO BE USED BY TAKING IN BOTH IMAGE URLS AND LIST OF PROBLEMS FROM GRADESCOPE.PY
