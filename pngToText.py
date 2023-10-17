@@ -1,7 +1,6 @@
 import os, io
 import requests
 from io import BytesIO
-# from google.cloud import vision
 from google.cloud import vision_v1
 from pdf2image import convert_from_path
 from google.cloud import vision
@@ -16,7 +15,7 @@ example_list_of_problems = ['1.', '2.', '3a.', '3b.', '3c.', '3d.', '3e.', '3f.'
 
 # test list of problems and page contents for testing problem_and_pages:
 test1 = ["1a. blah blah balh\nblah blah bklah\nblah blah\n1b. hello everyone!!!!!\n", "1c. blah blah balh\nblah blah bklah\nblah blah\n2. hello ebveryone!!!!!\n", "2nd question continued over here\n3. Debugging this is nutssss.\n help me\n"]
-test2 = ['1a.', '1b.', '1c.', '2.', '3.']
+test2 = ['1a', '1b', '1c', '2', '3']
 
 # converts the given image URL to text
 # the output's page numbers correspond to the index in the array + 1
@@ -33,67 +32,7 @@ def image_url_to_text(image_urls):
         response = client.text_detection(image=url)
         texts = response.text_annotations
         strings.append(texts[0].description)
-    
-    # Uncomment the 2 lines underneath to test this function
-    # for string in strings:
-    #     print(string + "\n\n\n\n\n\n\n")
-
     return strings
-# print(f'image_url_to_text: {image_url_to_text(arr_of_img_urls)}')
-
-# returns a string version of the given image (local path of image)
-def detect_text(path):
-
-    client = vision.ImageAnnotatorClient()
-
-    with open(path, "rb") as image_file:
-        content = image_file.read()
-
-    image = vision.Image(content=content)
-
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-
-    if response.error.message:
-        raise Exception(
-            "{}\nFor more info on error messages, check: "
-            "https://cloud.google.com/apis/design/errors".format(response.error.message)
-        )
-
-    return texts[0].description
-
-# given a list of images from relative path, return list of strings of image contents
-def detect_text_in_imgs(list_of_images):
-    
-    arr = []
-
-    for image in list_of_images:
-        arr.append(detect_text(image))
-
-    return arr
-
-# takes a pdf, returns an array of strings, each element is 1 page of the pdf's text
-def pdf_to_array_of_pages(pdf_path):
-
-    # store pdf
-    images = convert_from_path(pdf_path)
-
-    # number of pages in the given pdf
-    number_pages = len(images)
-
-    # array of strings; each element corresponds to 1 page
-    page_contents = []
-
-    # save each page as an image in directory
-    for i in range(number_pages):
-        curr = 'page' + str(i) + '.png'
-        images[i].save(curr, 'PNG')
-        page_contents.append(detect_text(curr))
-        os.remove(curr)
-    
-    return page_contents
-
-# pdf_to_array_of_pages('resources/example.pdf')
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 # takes in a list of strings (image texts) and another list of strings (problem numbers) and returns a hashmap 
@@ -101,7 +40,7 @@ def pdf_to_array_of_pages(pdf_path):
 # associated pages
 # IN ORDER FOR BEST RESULTS, PROBLEM NUMBER WILL ALWAYS FOLLOW THE FOLLOWING FORMAT:
 # - BEGINNING OF LINE + NUMBER + PART OF PROBLEM + '.'
-# - example: '1a.' or '2c.' or '42e.' or '1.' or '5.'
+# - example: '1a.' or '2c.' or '42e.' or '1)' or '5)'
 # - Since we are getting the problem numbers from the website, please follow the exact format used in gradescope.
 # - It is assumed that each problem number will always be on the left-most side of the line, to allow for easy
 #   parsing of textual information
@@ -116,7 +55,6 @@ def page_assigner(list_of_strings, problem_queue):
     # iterate through each page
     for i in range(len(list_of_strings)):
         text_on_page = list_of_strings[i].splitlines()
-        page_num += 1
         
         # iterate through each line in the page
         for line in text_on_page:
@@ -140,18 +78,13 @@ def page_assigner(list_of_strings, problem_queue):
             # if there are no more problems in the queue, then just process the last question, then we're done
             if not next_problem:
                 return problem_pages_map
-            
+        
+        page_num += 1
 
 # TEST USING PREDEFINED TEST CASES FOR BOTH PARAMETERS
 print(page_assigner(test1, test2))
 
 # TEST USING DOWNLOADED IMAGES FROM URLS OF AN ACTUAL PSET, AND THE LIST OF PROBLEMS STORED IN THE VARIABLE example_list_of_problems
-print(page_assigner(image_url_to_text(arr_of_img_urls), example_list_of_problems))
+# print(page_assigner(image_url_to_text(arr_of_img_urls), example_list_of_problems))
 
 # EVENTUAL USE CASE TO BE USED BY TAKING IN BOTH IMAGE URLS AND LIST OF PROBLEMS FROM GRADESCOPE.PY
-    
-                
-
-
-
-
