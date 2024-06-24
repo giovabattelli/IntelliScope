@@ -43,7 +43,7 @@ Then our extension will perform:
 - Parse question numbers and corresponding image links
 - Perform the page selection process
 
-All the user is left to do is hit submit.
+All the user is left to do is **hit submit!**
 
 
 ## Contributing
