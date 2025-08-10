@@ -1,4 +1,4 @@
-# Gradescope Auto-Page Selection Chrome Extension
+# IntelliScope chrome extension
 
 ## Description
 
